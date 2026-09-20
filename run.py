@@ -3,14 +3,20 @@ import gymnasium as gym
 import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import torch
 from datetime import datetime
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
 
 from src.dqn import DQN
 
 gym.register_envs(ale_py)
+
+
+def moving_average(values, window):
+    return np.convolve(values, np.ones(window) / window, mode="valid")
 
 
 def save_metric_plots(model, output_dir="outputs/plots"):
@@ -20,13 +26,20 @@ def save_metric_plots(model, output_dir="outputs/plots"):
     updates = model.metrics["updates"]
     fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
     update_plots = (
-        ("loss", "Huber loss"),
-        ("avg_q", "Average Q-value"),
-        ("grad_norm", "Gradient norm"),
+        ("loss", "Huber loss (smoothed)"),
+        ("target_max", "Average maximum target Q-value (smoothed)"),
+        ("grad_norm", "Gradient norm (smoothed)"),
         ("eps", "Epsilon"),
     )
+    window = 100
     for axis, (metric_name, title) in zip(axes.flat, update_plots):
-        axis.plot(updates["timestep"], updates[metric_name])
+        if metric_name == "eps":
+            axis.plot(updates["timestep"], updates[metric_name])
+        else:
+            axis.plot(
+                updates["timestep"][window - 1 :],
+                moving_average(updates[metric_name], window),
+            )
         axis.set_title(title)
         axis.set_xlabel("Environment timestep")
         axis.grid(alpha=0.3)
@@ -49,7 +62,7 @@ def save_metric_plots(model, output_dir="outputs/plots"):
 
 def main():
     # environment
-    env = gym.make("PongNoFrameskip-v4")
+    env = gym.make("BreakoutNoFrameskip-v4")
     env = gym.wrappers.AtariPreprocessing(env, frame_skip=4, screen_size=84, grayscale_obs=True)
     env = gym.wrappers.FrameStackObservation(env, 4)
 
