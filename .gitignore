@@ -1,0 +1,5 @@
+outputs/
+plots/
+models/
+**/__pycache__/
+*.py[cod]
