@@ -1,5 +1,6 @@
 import copy
 import random
+from collections import defaultdict
 from dataclasses import dataclass
 
 import numpy as np
@@ -7,9 +8,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
-from collections import defaultdict
 
 from src.buffer import ReplayBuffer
+
+torch.backends.cudnn.deterministic = True
 
 
 class QNetwork(nn.Module):
@@ -53,25 +55,26 @@ def linear_schedule(start_e: float, end_e: float, duration: int, t: int):
     return max(slope * t + start_e, end_e)
 
 
-def set_seed(seed: int):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-
-
 class DQN:
     def __init__(self, env, config: QLearningConfig | None = None):
         self.cfg = config or QLearningConfig()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        set_seed(self.cfg.seed)
 
         self.env = env
+        self.set_seed(self.cfg.seed)
+
         self.buffer = ReplayBuffer(self.cfg.buffer_size, obs_shape=(4, 84, 84))
         self.network = QNetwork(env.action_space.n).to(self.device)
         self.target_network = copy.deepcopy(self.network)
         self.optimizer = optim.Adam(self.network.parameters(), lr=self.cfg.learning_rate)
 
         self.metrics = defaultdict(lambda: defaultdict(list))
+
+    def set_seed(self, seed: int):
+        random.seed(seed)
+        np.random.seed(seed)
+        torch.manual_seed(seed)
+        self.env.action_space.seed(seed)
 
     def record_metrics(self, group, **values):
         for name, value in values.items():
@@ -131,7 +134,8 @@ class DQN:
 
                 # record
                 self.record_metrics(
-                    "updates", timestep=timestep, loss=loss.item(), avg_q=current_q.mean().item(), grad_norm=grad_norm.item(), eps=eps
+                    "updates", timestep=timestep, loss=loss.item(), target_max=target_max.mean().item(), grad_norm=grad_norm.item(), eps=eps
                 )
+
             if timestep % self.cfg.target_update_freq == 0:
                 self.target_network.load_state_dict(self.network.state_dict())
