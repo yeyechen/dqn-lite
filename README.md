@@ -39,7 +39,7 @@ python -m pytest tests/
 \quad \text{Initialize sequence } s_1 = \{x_1\} \text{ and preprocessed sequence } \phi_1 = \phi(s_1) \\
 \quad \textbf{For} \text{ } t = 1{,}T \textbf{ do} \\
 \quad\quad \text{With probability } \epsilon \text{ select a random action } a_t \\
-\quad\quad \text{otherwise select } a_t = \underset{a}{\operatorname{argmax}}\, Q(\phi(s_t){,}a; \theta) \\
+\quad\quad \text{otherwise select } a_t = \underset{a}{\mathrm{argmax}}\, Q(\phi(s_t){,}a; \theta) \\
 \quad\quad \text{Execute action } a_t \text{ in emulator and observe reward } r_t \text{ and image } x_{t+1} \\
 \quad\quad \text{Set } s_{t+1} = s_t{,}a_t{,}x_{t+1} \text{ and preprocess } \phi_{t+1} = \phi(s_{t+1}) \\
 \quad\quad \text{Store transition } (\phi_t{,}a_t{,}r_t{,}\phi_{t+1}) \text{ in } D \\
