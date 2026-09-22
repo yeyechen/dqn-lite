@@ -31,26 +31,26 @@ python -m pytest tests/
 **Algorithm 1: deep Q-learning with experience replay (Nature, 2015).**
 
 ```math
-\begin{array}{l}
-\text{Initialize replay memory } D \text{ to capacity } N \\
-\text{Initialize action-value function } Q \text{ with random weights } \theta \\
-\text{Initialize target action-value function } \hat{Q} \text{ with weights } \theta^- = \theta \\
-\textbf{For} \text{ episode } = 1, M \textbf{ do} \\
-\quad \text{Initialize sequence } s_1 = \{x_1\} \text{ and preprocessed sequence } \phi_1 = \phi(s_1) \\
-\quad \textbf{For} \text{ } t = 1{,}T \textbf{ do} \\
-\quad\quad \text{With probability } \epsilon \text{ select a random action } a_t \\
-\quad\quad \text{otherwise select } a_t = \underset{a}{\mathrm{argmax}}\, Q(\phi(s_t){,}a; \theta) \\
-\quad\quad \text{Execute action } a_t \text{ in emulator and observe reward } r_t \text{ and image } x_{t+1} \\
-\quad\quad \text{Set } s_{t+1} = s_t{,}a_t{,}x_{t+1} \text{ and preprocess } \phi_{t+1} = \phi(s_{t+1}) \\
-\quad\quad \text{Store transition } (\phi_t{,}a_t{,}r_t{,}\phi_{t+1}) \text{ in } D \\
-\quad\quad \text{Sample random minibatch of transitions } (\phi_j{,}a_j{,}r_j{,}\phi_{j+1}) \text{ from } D \\
-\quad\quad \text{Set } y_j = \left\{ \begin{array}{rc} r_j & \text{if episode terminates at step } j+1 \\ r_j + \gamma \underset{a'}{\max} \hat{Q}(\phi_{j+1}{,}a'; \theta^-) & \text{otherwise} \end{array} \right. \\
-\quad\quad \text{Perform a gradient descent step on } \left( y_j - Q(\phi_j{,}a_j; \theta) \right)^2 \text{ with respect to the} \\
-\quad\quad \text{network parameters } \theta \\
-\quad\quad \text{Every } C \text{ steps reset } \hat{Q} = Q \\
-\quad \textbf{End For} \\
-\textbf{End For}
-\end{array}
+\begin{aligned}
+&\text{Initialize replay memory } D \text{ to capacity } N \\
+&\text{Initialize action-value function } Q \text{ with random weights } \theta \\
+&\text{Initialize target action-value function } \hat{Q} \text{ with weights } \theta^- = \theta \\
+&\textbf{For} \text{ episode } = 1, M \textbf{ do} \\
+&\quad \text{Initialize sequence } s_1 = \{x_1\} \text{ and preprocessed sequence } \phi_1 = \phi(s_1) \\
+&\quad \textbf{For} \text{ } t = 1{,}T \textbf{ do} \\
+&\quad\quad \text{With probability } \epsilon \text{ select a random action } a_t \\
+&\quad\quad \text{otherwise select } a_t = \underset{a}{\mathrm{argmax}}\, Q(\phi(s_t){,}a; \theta) \\
+&\quad\quad \text{Execute action } a_t \text{ in emulator and observe reward } r_t \text{ and image } x_{t+1} \\
+&\quad\quad \text{Set } s_{t+1} = s_t{,}a_t{,}x_{t+1} \text{ and preprocess } \phi_{t+1} = \phi(s_{t+1}) \\
+&\quad\quad \text{Store transition } (\phi_t{,}a_t{,}r_t{,}\phi_{t+1}) \text{ in } D \\
+&\quad\quad \text{Sample random minibatch of transitions } (\phi_j{,}a_j{,}r_j{,}\phi_{j+1}) \text{ from } D \\
+&\quad\quad \text{Set } y_j = \left\{ \begin{array}{rc} r_j & \text{if episode terminates at step } j+1 \\ r_j + \gamma \underset{a'}{\max} \hat{Q}(\phi_{j+1}{,}a'; \theta^-) & \text{otherwise} \end{array} \right. \\
+&\quad\quad \text{Perform a gradient descent step on } \left( y_j - Q(\phi_j{,}a_j; \theta) \right)^2 \text{ with respect to the} \\
+&\quad\quad \text{network parameters } \theta \\
+&\quad\quad \text{Every } C \text{ steps reset } \hat{Q} = Q \\
+&\quad \textbf{End For} \\
+&\textbf{End For}
+\end{aligned}
 ```
 
 ### Symbols
