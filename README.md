@@ -3,6 +3,29 @@
   <img src="assets/banner2.png" alt="banner 2" width="49%" style="vertical-align: middle" />
 </p>
 
+## Setup
+
+Create and activate the conda environment:
+
+```bash
+conda env create -f environment.yml
+conda activate dqn-lite
+```
+
+For the CUDA 12.1 torch build, reinstall torch after activating:
+
+```bash
+pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+```
+
+## Tests
+
+Run all tests from the project root:
+
+```bash
+python -m pytest tests/
+```
+
 ## Algorithm
 
 **Algorithm 1: deep Q-learning with experience replay (Nature, 2015).**
@@ -50,6 +73,7 @@
 | $(y_j - Q(\phi_j, a_j; \theta))^2$ | update loss | `nn.HuberLoss()(td_target, current_q)` (Huber, not squared error) |
 | gradient step w.r.t. $\theta$ | weight update | `optimizer.step()` (Adam, `cfg.learning_rate`) |
 | $C$ | steps between target resets | `cfg.target_update_freq` |
+
 
 
 ### Default hyperparameters (`QLearningConfig`)
@@ -126,13 +150,20 @@ All other hyperparameters use the defaults above.
 </p>
 
 
-## Tests
+## Play
 
-Run all tests from the project root:
+<p align="center">
+  <img src="assets/seaquest_gameplay.gif" alt="seaquest gameplay" />
+</p>
+
+Run a trained checkpoint for one episode:
 
 ```bash
-python -m pytest tests/
+python play.py
 ```
+
+The script plays one episode greedily with a trained checkpoint, prints the episode score, and saves a gameplay mp4 to `outputs/<run>/gameplay/`. Point the `ENV_ID` and `WEIGHTS` constants at the top of `play.py` to the environment and checkpoint you want to run.
+
 
 ## Papers
 
