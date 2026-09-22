@@ -61,8 +61,13 @@ def save_metric_plots(model, output_dir="outputs/plots"):
 
 
 def main():
-    # environment
-    env = gym.make("BreakoutNoFrameskip-v4")
+    # environment options:
+    # 1. Breakout: "BreakoutNoFrameskip-v4"
+    # 2. Pong: "PongNoFrameskip-v4"
+    # 3. Space Invaders: "SpaceInvadersNoFrameskip-v4"
+    # 4. Seaquest: "SeaquestNoFrameskip-v4"
+
+    env = gym.make("SpaceInvadersNoFrameskip-v4")
     env = gym.wrappers.AtariPreprocessing(env, frame_skip=4, screen_size=84, grayscale_obs=True)
     env = gym.wrappers.FrameStackObservation(env, 4)
 
