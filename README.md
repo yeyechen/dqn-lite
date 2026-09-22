@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="assets/banner1.png" alt="banner 1" width="49%" style="vertical-align: middle" />
-  <img src="assets/banner2.png" alt="banner 2" width="49%" style="vertical-align: middle" />
+  <img src="assets/banner1.png" alt="banner 1" width="49%" align="middle" />
+  <img src="assets/banner2.png" alt="banner 2" width="49%" align="middle" />
 </p>
 
 ## Setup
@@ -111,8 +111,8 @@ python -m pytest tests/
 Trained for 3M steps in 1 hour 30 min. All hyperparameters use the defaults above.
 
 <p align="center">
-  <img src="assets/breakout_training_metrics.png" alt="breakout training metrics" width="49%" style="vertical-align: middle" />
-  <img src="assets/breakout_episode_metrics.png" alt="breakout episode metrics" width="49%" style="vertical-align: middle" />
+  <img src="assets/breakout_training_metrics.png" alt="breakout training metrics" width="49%" align="middle" />
+  <img src="assets/breakout_episode_metrics.png" alt="breakout episode metrics" width="49%" align="middle" />
 </p>
 
 ### Seaquest
@@ -128,8 +128,8 @@ Trained for 10M steps in 5 hours 12 min.
 All other hyperparameters use the defaults above.
 
 <p align="center">
-  <img src="assets/seaquest_training_metrics.png" alt="seaquest training metrics" width="49%" style="vertical-align: middle" />
-  <img src="assets/seaquest_episode_metrics.png" alt="seaquest episode metrics" width="49%" style="vertical-align: middle" />
+  <img src="assets/seaquest_training_metrics.png" alt="seaquest training metrics" width="49%" align="middle" />
+  <img src="assets/seaquest_episode_metrics.png" alt="seaquest episode metrics" width="49%" align="middle" />
 </p>
 
 ### Space Invaders
@@ -145,8 +145,8 @@ Trained for 10M steps in 5 hours 19 min.
 All other hyperparameters use the defaults above.
 
 <p align="center">
-  <img src="assets/space_invaders_training_metrics.png" alt="space invaders training metrics" width="49%" style="vertical-align: middle" />
-  <img src="assets/space_invaders_episode_metrics.png" alt="space invaders episode metrics" width="49%" style="vertical-align: middle" />
+  <img src="assets/space_invaders_training_metrics.png" alt="space invaders training metrics" width="49%" align="middle" />
+  <img src="assets/space_invaders_episode_metrics.png" alt="space invaders episode metrics" width="49%" align="middle" />
 </p>
 
 
